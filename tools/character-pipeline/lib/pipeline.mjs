@@ -18,7 +18,7 @@ export async function runPipeline({ biblePath, style = 'toon', adapter = 'mock',
   const refs = (bible.references || []).slice(0, 4); // paths only; the mock never reads or sends them, network adapters would need approval for uploads
   const results = [];
   for (const [i, s] of plan.entries()) {
-    const c = composePrompt(bible, s), g = await ad.generate({ prompt: c.prompt, negative: c.negative, refs: ad.network ? refs : [], seed: seed + i, shot: s.shot, size: c.meta.size, style, bible, expression: s.expression, pose: s.pose });
+    const c = composePrompt(bible, s), g = await ad.generate({ prompt: c.prompt, negative: c.negative, refs: ad.network || ad.local ? refs : [], seed: seed + i, shot: s.shot, size: c.meta.size, style, bible, expression: s.expression, pose: s.pose });
     const kind = s.shot, label = name(s), pp = postProcess(g.image, { style, kind, palette: Object.values(bible.colors), size: c.meta.size });
     writeFileSync(join(dir, 'raw', `${label}.png`), encodePNG(g.image)); writeFileSync(join(dir, 'processed', `${label}.png`), encodePNG(pp.image));
     results.push({ kind, label, image: pp.image, mips: pp.mips, prompt: c.prompt, negative: c.negative, meta: c.meta, model: g.model, seed: seed + i, steps: pp.steps });

@@ -2,6 +2,11 @@
 
 All notable changes to Pawed Racer are documented here. Format: [Keep a Changelog](https://keepachangelog.com/); versioning: [SemVer](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+- Local SDXL + IP-Adapter generator adapter for the photo style (`--adapter sdxl`), see `tools/character-pipeline/SDXL.md`.
+
 ## [v0.1.0] - 2026-11-21
 
 ### Added
