@@ -13,4 +13,8 @@ Run: `HF_HOME=/datanapps/cache/huggingface HIP_VISIBLE_DEVICES=1 node tools/char
 
 Config: `PR_SDXL_PY`, `PR_SDXL_MODEL`, `PR_SDXL_STEPS`, `PR_SDXL_REF_SCALE`, `HIP_VISIBLE_DEVICES` (default 1).
 
-Status (MVP): text+reference generation works end to end through post-process and checks. First Colby billboard: silhouette IoU 0.57 (passes), aspect ratio and palette checks fail; background cut-out leaves a grey box. Next: background matting, palette-locked prompts, more seeds.
+Status (MVP): the Super Colby billboard now passes all checks (silhouette IoU 0.71, aspect 0.83, palette 75% on-palette, which is exactly the bar) using
+`PR_SDXL_REF_SCALE=0.4 ... --tries 4` (best of 4 seeds, scored by checks + IoU + on-palette share). Added: gradient-tolerant `floodMatte` background removal (photo style),
+a cropped front-view reference passed to the generator, and flat-background prompts.
+Known limits: the look is still cartoon-like, not photographic (the reference photos are cartoons and base SDXL follows them); try a photoreal checkpoint via `PR_SDXL_MODEL`
+and lower `PR_SDXL_REF_SCALE`. Each try reloads the model (about 15 s overhead). Only Colby billboard verified; Pete, pods and drivers not yet generated.

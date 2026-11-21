@@ -6,6 +6,7 @@ All notable changes to Pawed Racer are documented here. Format: [Keep a Changelo
 
 ### Added
 - Local SDXL + IP-Adapter generator adapter for the photo style (`--adapter sdxl`), see `tools/character-pipeline/SDXL.md`.
+- `--tries N` best-of-N seed selection and a gradient-tolerant background matte (`floodMatte`) for the photo style.
 
 ## [v0.1.0] - 2026-11-21
 

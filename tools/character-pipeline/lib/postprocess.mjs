@@ -1,5 +1,5 @@
 // Post-process: background removal, trim, consistent scale + anchor (feet bottom-centre), palette lock (retro), grade (photo), mipmaps (billboards).
-import { removeBackground, bbox, crop } from './learn.mjs';
+import { removeBackground, floodMatte, bbox, crop } from './learn.mjs';
 import { newImage, resize, blit, unhex } from './image.mjs';
 export const BILLBOARD_MIPS = [256, 128, 64, 32];
 /** Fit the trimmed subject into a w x h canvas: height = fill*h, bottom-centre anchored (anchorY = fraction of canvas height where the feet sit). */
@@ -21,7 +21,7 @@ export function grade(img, { warm = 0.04, lift = 0.04 } = {}) {
 }
 /** Full chain for one generated image. kind: turnaround | expression | pose | billboard. Returns {image, mips?, steps}. */
 export function postProcess(img, { style = 'toon', kind = 'billboard', palette = null, size } = {}) {
-  const steps = [], bg = removeBackground(img); let cur = bg.image; steps.push(`bg-key ${bg.key.map(Math.round).join(',')}`);
+  const steps = [], bg = style === 'photo' ? floodMatte(img) : removeBackground(img); let cur = bg.image; steps.push(`bg-key ${bg.key.map(Math.round).join(',')}`);
   if (kind === 'turnaround') { const bb = bbox(cur); steps.push('trim'); if (bb) cur = crop(cur, Math.max(0, bb.x - 8), Math.max(0, bb.y - 8), Math.min(cur.w, bb.w + 16), Math.min(cur.h, bb.h + 16)); }
   else { const [w, h] = size || [img.w, img.h]; cur = fitAnchor(cur, w, h); steps.push(`fit ${w}x${h} anchored bottom-centre`); }
   if (style === 'retro' && palette) { cur = paletteLock(cur, palette); steps.push('palette-lock'); }

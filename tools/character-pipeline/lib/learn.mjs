@@ -55,3 +55,19 @@ export function learnReference(img, name = 'reference') {
   if (ow) notes.push(`outline about ${ow}px at ${img.w}px width (${(ow / img.w * 1000).toFixed(1)} per mille)`);
   return { source: name, size: { w: img.w, h: img.h }, background: hex(...key), keptBlobs: kept, bbox: bb, views: views.map((v) => ({ x: v.x, w: v.w, bbox: v.bbox, aspect: v.bbox ? +(v.bbox.h / v.bbox.w).toFixed(3) : null })), outlineWeightPx: ow, palette, notes, cutout: image };
 }
+
+/** Gradient-tolerant background removal: flood from the image border, growing into pixels whose colour is close to the neighbour they were reached from
+ *  (step) and not too far from the border seed (cap). Handles studio gradients and soft floor shadows that a single key colour cannot. */
+export function floodMatte(img, { step = 9, cap = 70, erode = 1 } = {}) {
+  const { w, h } = img, n = w * h, px = (i) => [img.rgba[i * 4], img.rgba[i * 4 + 1], img.rgba[i * 4 + 2]], bg = new Uint8Array(n), seed = new Int32Array(n).fill(-1), st = new Int32Array(n); let sp = 0;
+  const push = (i, from) => { if (bg[i]) return; if (from >= 0) { if (Math.sqrt(d2(px(i), px(from))) > step || Math.sqrt(d2(px(i), px(seed[from]))) > cap) return; seed[i] = seed[from]; } else seed[i] = i; bg[i] = 1; st[sp++] = i; };
+  for (let x = 0; x < w; x++) { push(x, -1); push((h - 1) * w + x, -1); } for (let y = 0; y < h; y++) { push(y * w, -1); push(y * w + w - 1, -1); }
+  while (sp) { const i = st[--sp], x = i % w, y = (i / w) | 0; if (x > 0) push(i - 1, i); if (x < w - 1) push(i + 1, i); if (y > 0) push(i - w, i); if (y < h - 1) push(i + w, i); }
+  let fg = new Uint8Array(n); for (let i = 0; i < n; i++) fg[i] = bg[i] ? 0 : 1;
+  for (let e = 0; e < erode; e++) { const nx = new Uint8Array(fg); for (let y = 1; y < h - 1; y++) for (let x = 1; x < w - 1; x++) { const i = y * w + x; if (fg[i] && (!fg[i - 1] || !fg[i + 1] || !fg[i - w] || !fg[i + w])) nx[i] = 0; } fg = nx; }
+  // keep only the largest foreground blob (drops floating specks and stray shadow islands)
+  const lab = new Int32Array(n); let best = 0, bestL = 0, L = 0;
+  for (let s0 = 0; s0 < n; s0++) { if (!fg[s0] || lab[s0]) continue; L++; let c = 0; sp = 0; st[sp++] = s0; lab[s0] = L; while (sp) { const i = st[--sp]; c++; const x = i % w, y = (i / w) | 0; for (const j of [x > 0 ? i - 1 : -1, x < w - 1 ? i + 1 : -1, y > 0 ? i - w : -1, y < h - 1 ? i + w : -1]) if (j >= 0 && fg[j] && !lab[j]) { lab[j] = L; st[sp++] = j; } } if (c > best) { best = c; bestL = L; } }
+  const out = { w, h, rgba: new Uint8Array(img.rgba) }; for (let i = 0; i < n; i++) out.rgba[i * 4 + 3] = lab[i] === bestL ? 255 : 0;
+  return { image: out, key: px(0), blobs: L, kept: 1 };
+}
