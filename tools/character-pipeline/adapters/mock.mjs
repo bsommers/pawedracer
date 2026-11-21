@@ -23,7 +23,7 @@ function figure(img, b, view, cx, base, H, rnd, shot, expression) {
   if (C.shield) { polygon(img, [[cx - bw * 0.35, by - bh * 0.7], [cx + bw * 0.35, by - bh * 0.7], [cx, by - bh * 0.1]], out); polygon(img, [[cx - bw * 0.3, by - bh * 0.66], [cx + bw * 0.3, by - bh * 0.66], [cx, by - bh * 0.17]], C.shield); if (C.emblem) ellipse(img, cx, by - bh * 0.5, bw * 0.12, bw * 0.12, C.emblem); }
   if (C.stripes) for (let i = -1; i <= 1; i += 2) line(img, cx + i * bw * 0.85, by + bh * 0.1, cx + i * bw * 0.6, by + bh * 0.25, H * 0.012, C.stripes);
   // arms
-  for (const s of side ? [0.1] : [-1, 1]) sh(cx + s * (bw + H * 0.03), by + bh * 0.05, H * 0.04, H * 0.11, C.shirt || fur, s * 0.15);
+  for (const s of side ? [0.1] : [-1, 1]) sh(cx + s * (bw + H * (gaunt ? 0.14 : 0.03)), by + bh * 0.05, H * 0.04, H * 0.11, C.shirt || fur, s * 0.15);
   // ears
   const ec = C.ear || C.skin || fur;
   for (const s of side ? [0.4] : [-1, 1]) { const ex = hx + s * hr * 0.7, ey = hy - hr * 0.8;
