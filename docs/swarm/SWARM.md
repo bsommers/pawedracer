@@ -1,6 +1,6 @@
 # Swarm manifest: Pawed Racer
 
-Single source of truth for the agent swarm. `node tools/swarm-tracker/bin/swarm-plan.mjs` turns this file into `docs/swarm/prompts/<id>.md` and `.tracker/plan.json`. Tracker port 4860 (LAN: 192.168.1.x).
+Single source of truth for the agent swarm. `node tools/swarm-tracker/bin/swarm-plan.mjs` turns this file into `docs/swarm/prompts/<id>.md` and `.tracker/plan.json`. Tracker port 4860 (loopback by default; set `TRACKER_ALLOW` to expose on a LAN).
 Agent header: `## id | model | phase | role | Name`, then an `owns:` line, then the task.
 Spawn each agent with: "Read {{root}}/docs/swarm/prompts/<id>.md and execute it exactly."
 
@@ -29,7 +29,7 @@ Rules:
 13. Reference implementations from sibling games live in `/home/bill/src/fun/catxzzon/` (same pixbuf/font/audio/sim patterns) — read-only, use as inspiration; the Pawed Racer contract wins on any disagreement.
 14. Factory contribution (ARCHITECTURE section 8): if you build something reusable by other games, or must patch a factory file, stage it under `../game-factory/proposed/pawedracer/` (never edit the live factory) and append an entry to `../game-factory/proposed/pawedracer/CHANGELOG-PAWEDRACER.md`. Mention it in your report under 'Factory proposals' (or 'none').
 15. Quality bar: the user wants to be wowed. Charm, cheese puns, juicy speed and feedback. But the contract comes first.
-16. The tracker is on port 4860 and also on the LAN; do not start or kill servers.
+16. The tracker is on port 4860 (loopback unless `TRACKER_ALLOW` is set); do not start or kill servers.
 
 Your task:
 
@@ -107,4 +107,4 @@ Build build-spec section 2.1: bible schema, prompt composer, generator adapter i
 
 ## site-docs | haiku | p4 | docs | Site and docs
 owns: site/*, docs/HOW-TO-PLAY.md, docs/HOW-IT-WAS-MADE.md, README.md
-Showcase site and docs from the real state of the repo (do not invent features). Mention both coordinates, local relative first, for libraries: `../character-library` / `github.com/bsommers/character-library` and `../pawfall-assets` / `github.com/bsommers/pawfall-assets`. Tracker: http://192.168.1.245:4860/ on the LAN.
+Showcase site and docs from the real state of the repo (do not invent features). Mention both coordinates, local relative first, for libraries: `../character-library` / `github.com/bsommers/character-library` and `../pawfall-assets` / `github.com/bsommers/pawfall-assets`. Tracker: http://localhost:4860/ (configurable via `TRACKER_PORT` / `TRACKER_ALLOW`).

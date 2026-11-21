@@ -11,8 +11,8 @@ const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(process.env.TRACKER_ROOT || process.cwd());
 const PORT = Number(process.env.TRACKER_PORT || 4780);
 const HOST = process.env.TRACKER_HOST || '0.0.0.0';   // LAN-visible by default; access is limited by the allowlist below
-// Allowlist of client addresses: loopback plus the home LAN. Override with TRACKER_ALLOW="192.168.1.,10.0.0." (comma-separated prefixes; "*" = anyone).
-const ALLOW = (process.env.TRACKER_ALLOW || '127.0.0.1,::1,192.168.1.').split(',').map((x) => x.trim()).filter(Boolean);
+// Allowlist of client address prefixes. Default: loopback only. To expose on your LAN set TRACKER_ALLOW (comma-separated prefixes, e.g. "192.168.0.,10.0.0."; "*" = anyone).
+const ALLOW = (process.env.TRACKER_ALLOW || '127.0.0.1,::1').split(',').map((x) => x.trim()).filter(Boolean);
 const allowed = (addr) => { const a = String(addr || '').replace(/^::ffff:/, ''); return ALLOW.includes('*') || ALLOW.some((p) => a === p || (p.endsWith('.') && a.startsWith(p))); };
 const TRK = join(ROOT, '.tracker');
 const CODE_DIRS = (process.env.TRACKER_CODE_DIRS || 'src,lib,bin,tools,scripts,test,tests,app,docs').split(',').map(x => x.trim()).filter(Boolean);
