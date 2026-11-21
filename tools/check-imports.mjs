@@ -6,7 +6,7 @@
 import fs from 'node:fs'; import path from 'node:path';
 const root = path.resolve(process.argv[2] || 'src');
 const files = []; (function walk(d) { for (const f of fs.readdirSync(d, { withFileTypes: true })) { const p = path.join(d, f.name); f.isDirectory() ? walk(p) : /\.m?js$/.test(f.name) && files.push(p); } })(root);
-const strip = s => s.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/.*$/gm, '$1');
+const strip = s => s.replace(/(^|[^:])\/\/.*$/gm, '$1').replace(/\/\*[\s\S]*?\*\//g, '')   // line comments first: '// a/*.js' must not open a block comment;
 const exportsOf = new Map();
 function exp(file) {
   if (exportsOf.has(file)) return exportsOf.get(file);

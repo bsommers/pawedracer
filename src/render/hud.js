@@ -7,6 +7,18 @@ import { drawSprite } from './scene.js';
 const ordinal = (n) => n + '/8';
 export const fmtTime = (s) => (s > 0 ? Math.floor(s / 60) + ':' + (s % 60).toFixed(2).padStart(5, '0') : '-:--.--');
 
+/** Greedy word wrap to `cols` chars, at most `max` lines (last line ends in '..' when cut). */
+export function wrapText(text, cols, max) {
+  const lines = []; let cur = '';
+  for (let w of text.split(/\s+/).filter(Boolean)) {
+    while (w.length > cols) { if (cur) { lines.push(cur); cur = ''; } lines.push(w.slice(0, cols)); w = w.slice(cols); }
+    if (!cur) cur = w; else if ((cur + ' ' + w).length <= cols) cur += ' ' + w; else { lines.push(cur); cur = w; }
+  }
+  if (cur) lines.push(cur);
+  if (lines.length > max) { lines.length = max; lines[max - 1] = lines[max - 1].slice(0, cols - 2) + '..'; }
+  return lines;
+}
+
 function bar(g, x, y, w, h, v, c0, c1, label) {
   g.fillStyle = PAL.hudBg; g.fillRect(x - 1, y - 1, w + 2, h + 2);
   g.fillStyle = PAL.outline; g.fillRect(x, y, w, h);
@@ -42,7 +54,8 @@ export function drawHud(g, view, art, t, ui = {}) {
     g.fillStyle = PAL.hudBg; g.globalAlpha = 0.8; g.fillRect(W - 128, H - 46, 124, 44); g.globalAlpha = 1;
     g.fillStyle = PAL.outline; g.fillRect(px - 1, py - 1, 38, 38);
     drawSprite(g, art, nm, r.mood ?? ((t * 6) | 0) % 2, px + 18, py + 36, 36);
-    drawText(g, String(r.text).slice(0, 44), W - 126, H - 40, { color: PAL.hudTxt, shadow: PAL.black, wrap: undefined });
+    const lines = wrapText(String(r.text), 13, 4);   // text column is left of the portrait: 82 px = 13 glyphs
+    lines.forEach((ln, i) => drawText(g, ln, W - 126, H - 42 + i * 9, { color: PAL.hudTxt, shadow: PAL.black }));
   }
   // centre messages: countdown, GO, final lap, flash
   if (view.phase === 'countdown') {

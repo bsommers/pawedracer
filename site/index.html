@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pawed Racer</title>
+<meta name="description" content="Pawed Racer: a pod-racing parody. Colby the orange tabby races Perring Parkway Pete through cheese-themed tracks. Plays in the browser.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="./">Pawed Racer</a>
+  <nav>
+    <a href="play/">Play</a>
+    <a href="https://github.com/bsommers/pawedracer/blob/main/docs/HOW-TO-PLAY.md">How to play</a>
+    <a href="https://github.com/bsommers/pawedracer">Source</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="copy">
+      <p class="kicker">A pod-racing parody with whiskers</p>
+      <h1>Colby is going to <span>win the Gouda Eve Classic.</span></h1>
+      <p class="lede">Colby, an orange tabby with a racing scarf, hops into a cheese-powered pod and races Perring Parkway Pete, a gaunt red-eyed rat who fights dirty. Eight tracks, eight kinds of hazard, boost, barrel rolls, and a parts shop to make your pod less of a crumb.</p>
+      <div class="cta">
+        <a class="button" href="play/">Play in your browser</a>
+        <a class="button ghost" href="https://github.com/bsommers/pawedracer/blob/main/docs/HOW-TO-PLAY.md">Read the controls</a>
+      </div>
+      <p class="fine">One HTML file, no install. Keyboard controls on desktop; touch is untested. Audio has never been listened to (see below).</p>
+    </div>
+    <figure class="shot">
+      <img src="img/hero-toon-brie.png" width="960" height="600" alt="Colby racing across Brie Beach Run in the toon style, Pete taunting from the radio portrait">
+      <figcaption>Brie Beach Run, toon style. Captured from a headless render with a simple driver, not a player session.</figcaption>
+    </figure>
+  </section>
+
+  <section class="grid" aria-label="Highlights">
+    <article>
+      <h2>Eight cheese courses</h2>
+      <p>Brie Beach Run, Cheddar Canyon, Swiss Hole Tunnels, Fondue Falls, Blue Cheese Bog, Parmesan Peaks, Camembert Caverns, and the Gouda Eve Classic, a five-lap finale.</p>
+    </article>
+    <article>
+      <h2>Pete plays dirty</h2>
+      <p>Pete shoves you when you ride alongside, drops mines behind him on straights, and boosts on the final lap. Expect cheesy taunts.</p>
+    </article>
+    <article>
+      <h2>Upgrade your pod</h2>
+      <p>Engines, cooling, grip, armour and thrusters, each with five tiers. Spend what you win and see the stats move.</p>
+    </article>
+    <article>
+      <h2>Same race, every time</h2>
+      <p>The simulation is deterministic: a seed gives the same race. Ghosts record your best run per track.</p>
+    </article>
+  </section>
+
+  <section class="status">
+    <h2>What is not finished</h2>
+    <p>Honest status. Pawed Racer is a work in progress.</p>
+    <ul>
+      <li><strong>Ghibli style:</strong> code exists, but nobody has checked how it looks in a real session. Treat it as unverified.</li>
+      <li><strong>Photo style:</strong> not built. It is an alias that draws the toon style.</li>
+      <li><strong>Audio:</strong> sound effects and music are generated from code and have never been listened to by a person. Levels and balance may be wrong.</li>
+      <li><strong>Balance:</strong> the bot finished the Brie Beach Run test seeds in headless runs. Other tracks and human play have not been checked for fun or difficulty.</li>
+    </ul>
+  </section>
+
+  <section class="credits">
+    <h2>Built from</h2>
+    <ul>
+      <li><code>../character-library</code> (local) or <a href="https://github.com/bsommers/character-library">github.com/bsommers/character-library</a>: characters in all styles, seeds Super Colby and Perring Parkway Pete.</li>
+      <li><code>../pawfall-assets</code> (local) or <a href="https://github.com/bsommers/pawfall-assets">github.com/bsommers/pawfall-assets</a>: Colby sprites, treasures, effects, sound effects and songs.</li>
+    </ul>
+    <p><a href="https://github.com/bsommers/pawedracer/blob/main/docs/HOW-IT-WAS-MADE.md">How it was made</a> covers the swarm of agents that built it.</p>
+  </section>
+</main>
+
+<footer>
+  <p>Pawed Racer. A parody. Pete is a rat, and nobody is sorry.</p>
+</footer>
+</body>
+</html>

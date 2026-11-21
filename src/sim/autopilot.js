@@ -124,7 +124,7 @@ export function createBot({ skill = 0.8, seed = 1, lapLength, noise = true } = {
             if (Math.abs(predictX(th.o, th.i, tau + dtau, view.t) - LANES[l]) < half) { c[l] += weight; break; }
           }
         }
-        if (th.h.solid && th.dz > -POD.collisionZ && th.dz < 520 + speed * 0.05) {
+        if (th.dz > -POD.collisionZ && th.dz < 520 + speed * 0.05) {
           const px = predictX(th.o, th.i, tau, view.t);
           if (Math.abs(px - x) < th.h.w * 0.5 + POD.collisionX + 0.04 && (!imminent || th.dz < imminent.dz)) imminent = { ...th, px };
         }
@@ -207,7 +207,7 @@ export function createBot({ skill = 0.8, seed = 1, lapLength, noise = true } = {
     // ---- barrel roll through unavoidable solids
     rollLock = Math.max(0, rollLock - dt);
     if (imminent && rollLock <= 0 && !pl.rolling && !pl.stalled && s > 0.3) {
-      if (bestC >= 30) {                                    // no clear lane: roll (invulnerable) toward the centre
+      if (bestC >= 10) {                                    // no clear lane: roll (invulnerable) toward the centre
         out.roll = x + 1.1 > 1.0 ? -1 : x - 1.1 < -1.0 ? 1 : (Math.abs(x + 1.1) < Math.abs(x - 1.1) ? 1 : -1);
         rollLock = POD.rollCooldown + 0.1; stats.rolls++;
       }

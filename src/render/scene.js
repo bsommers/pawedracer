@@ -65,16 +65,16 @@ function silhouette(g, th, biome, hz, scroll, dim) {
 export function drawSky(g, art, th, biome, tod, scroll, t, hz = ROAD.horizonY) {
   const skyName = 'bg_sky_' + (tod === 'night' ? 'night' : tod === 'dusk' ? 'dusk' : 'day');
   if (art.has(skyName)) {
-    const f = art.get(skyName).frames[0], img = toDrawable(f);
-    const o = ((scroll * 0.25) % f.w + f.w) % f.w;
-    for (let x = -o; x < W; x += f.w) g.drawImage(img, x, hz - f.h, f.w, f.h);
-    if (f.h < hz) { g.fillStyle = th.sky; g.fillRect(0, 0, W, hz - f.h); }
+    const a = art.get(skyName), f = a.frames[0], img = toDrawable(f);   // a.w/a.h are logical px (hi-res packs have f.w = HI_SCALE x a.w)
+    const o = ((scroll * 0.25) % a.w + a.w) % a.w;
+    for (let x = -o; x < W; x += a.w) g.drawImage(img, x, hz - a.h, a.w, a.h);
+    if (a.h < hz) { g.fillStyle = th.sky; g.fillRect(0, 0, W, hz - a.h); }
   } else skyFallback(g, th, hz, t);
   const layer = LAYER_OF[biome] ?? 'bg_hills';
   if (art.has(layer)) {
-    const f = art.get(layer).frames[0], img = toDrawable(f);
-    const o = ((scroll * 0.6) % f.w + f.w) % f.w;
-    for (let x = -o; x < W; x += f.w) g.drawImage(img, x, hz - f.h + 2, f.w, f.h);
+    const a = art.get(layer), f = a.frames[0], img = toDrawable(f);
+    const o = ((scroll * 0.6) % a.w + a.w) % a.w;
+    for (let x = -o; x < W; x += a.w) g.drawImage(img, x, hz - a.h + 2, a.w, a.h);
   } else {
     silhouette(g, th, biome, hz, scroll * 0.6, 0.15);
     silhouette(g, th, biome, hz + 1, scroll * 1.1 + 40, 0);
@@ -86,7 +86,7 @@ export function drawSky(g, art, th, biome, tod, scroll, t, hz = ROAD.horizonY) {
 // ---------------------------------------------------------------- pods
 const RIVAL = ['pod_r1', 'pod_r2', 'pod_r3', 'pod_r4', 'pod_r5'];
 export function podArtName(p, idx) {
-  if (p.isPlayer) return 'pod_colby';
+  if (p.isPlayer || p.ghost) return 'pod_colby';
   if (/pete/i.test(p.id ?? '') || /pete/i.test(p.name ?? '')) return 'pod_pete';
   return RIVAL[(idx + (p.id ? String(p.id).length : 0)) % RIVAL.length];
 }
@@ -96,8 +96,8 @@ export function drawPod(g, art, p, idx, sx, sy, k, t, steer, clipY = H) {
   const name = podArtName(p, idx), body = art.get(name);
   const wpx = body.w * k, bodyH = body.w * (body.frames[0].h / body.frames[0].w), flH = art.get('pod_flame');
   if (wpx < 1) return;
-  const sh = art.get('pod_shadow');
-  drawSprite(g, art, 'pod_shadow', 0, sx, sy + 2 * k, sh.w * k * 1.05, clipY, 0.55);
+  const sh = art.get('pod_shadow'), ga = p.ghost ? 0.45 : 1;   // ghost pods (time-trial replay) are translucent
+  drawSprite(g, art, 'pod_shadow', 0, sx, sy + 2 * k, sh.w * k * 1.05, clipY, 0.55 * ga);
   const hover = p.wreck ? 0 : Math.sin(t * 9 + idx * 2) * 0.8 * k;
   let nm = name, fr = Math.round(2 + Math.max(-2, Math.min(2, steer)));
   if (p.wreck) { nm = 'pod_wreck'; fr = ((t * 4) | 0) & 1; }
@@ -106,11 +106,11 @@ export function drawPod(g, art, p, idx, sx, sy, k, t, steer, clipY = H) {
     const boost = p.boost && p.boost.active, fl = art.get('pod_flame'), fs = (boost ? 1.5 : 0.85 + Math.min(1, (p.speed ?? 0) / 12000) * 0.3) * k;
     const ff = ((t * 20) | 0) + idx;
     const off = body.w * 0.26 * k, fy = sy - bodyH * 0.18 * k + hover;
-    drawSprite(g, art, 'pod_flame', ff, sx - off, fy + fl.w * (fl.frames[0].h / fl.frames[0].w) * fs * 0.6, fl.w * fs, clipY, boost ? 1 : 0.9);
-    drawSprite(g, art, 'pod_flame', ff + 1, sx + off, fy + fl.w * (fl.frames[0].h / fl.frames[0].w) * fs * 0.6, fl.w * fs, clipY, boost ? 1 : 0.9);
+    drawSprite(g, art, 'pod_flame', ff, sx - off, fy + fl.w * (fl.frames[0].h / fl.frames[0].w) * fs * 0.6, fl.w * fs, clipY, (boost ? 1 : 0.9) * ga);
+    drawSprite(g, art, 'pod_flame', ff + 1, sx + off, fy + fl.w * (fl.frames[0].h / fl.frames[0].w) * fs * 0.6, fl.w * fs, clipY, (boost ? 1 : 0.9) * ga);
     if (body.fallback || fl.fallback) { /* fallback rectangles already visible */ }
   }
-  drawSprite(g, art, nm, fr, sx, sy + hover, wpx, clipY);
+  drawSprite(g, art, nm, fr, sx, sy + hover, wpx, clipY, ga);
   if (p.stalled) { g.fillStyle = PAL.flameD; g.globalAlpha = 0.6; g.fillRect(sx - 2 * k, sy - bodyH * k - 2, 4 * k, 2); g.globalAlpha = 1; }
 }
 
