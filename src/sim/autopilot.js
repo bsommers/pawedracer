@@ -199,7 +199,7 @@ export function createBot({ skill = 0.8, seed = 1, lapLength, noise = true } = {
     // ---- corner speed
     const auth = POD.steer * Math.min(1.4, Math.max(speed, 3000) / POD.steerSpeedRef);
     const load = (cMax * speed * speed * POD.centrifugal) / auth;           // fraction of steering authority the corner eats
-    const limit = 0.5 + 0.2 * s;
+    const limit = 0.62 + 0.2 * s;
     const over = load > limit;
     out.throttle = over ? 0 : 1;
     out.brake = load > limit + 0.2 ? 1 : 0;

@@ -47,7 +47,7 @@ export function drawPod(kit, c, P, lean = 0, t = 0, o = {}) {
   const k = o.k ?? 1;
   c.save();
   c.translate(20, 25); c.rotate(lean * 0.055); c.translate(-20 - lean * 0.5, -25);
-  sh(kit, c, 20, 27, 17, 2, 0.28);
+  sh(kit, c, 20, 25.6, 16, 1.7, 0.28);
   // engine nacelles
   for (const sx of [-1, 1]) {
     const cx = 20 + sx * 13.2 + lean * sx * 0.3;

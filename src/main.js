@@ -55,7 +55,7 @@ function applyOptions() {
   if (o.style !== (renderer && renderer.style)) applyStyle(o.style, true);
 }
 const sfx = (n) => { if (n && audio && audio.play) { try { audio.play(n); } catch { /* audio is optional */ } } };
-function music(n) { if (!n || n === G.music) return; G.music = n; if (audio && audio.music) { try { audio.music(n); } catch { /* optional */ } } }
+function music(n) { if (!n || n === G.music) return; G.music = n; if (audio && audio.setMusic) { try { audio.setMusic(n); } catch { /* optional */ } } }
 
 // ---------------------------------------------------------------- races
 function newRace({ mode, trackId, seed, laps, tournament, bot }, b) {
@@ -215,7 +215,7 @@ function runCmd(r) {
   }
 }
 function onAct(e) {
-  if (audio && audio.unlock) audio.unlock();
+  if (audio && audio.resume) audio.resume();
   const a = e.act;
   if (a === 'mute') { flow.options.mute = !flow.options.mute; applyOptions(); flow.persist(); G.toast = flow.options.mute ? 'MUTED' : 'SOUND ON'; G.toastT = G.t; return; }
   if (a === 'fullscreen') { try { document.fullscreenElement ? document.exitFullscreen() : out.requestFullscreen(); } catch { /* unsupported */ } return; }
@@ -237,14 +237,14 @@ window.addEventListener('keydown', (ev) => {
   if (ev.code === 'Space' || ev.code.startsWith('Arrow')) ev.preventDefault();
   if (flow.screen === 'race' && !G.paused && INPUT_KEYS.roll.includes(ev.code) && !ev.repeat) G.rollEdge = true;
   if (INPUT_KEYS.style.includes(ev.code) && !ev.repeat) cycleStyle();
-  if (audio && audio.unlock) audio.unlock();
+  if (audio && audio.resume) audio.resume();
 });
 window.addEventListener('keyup', (ev) => keys.delete(ev.code));
 window.addEventListener('blur', () => { keys.clear(); if (flow.screen === 'race') togglePause(true); });
 document.addEventListener('visibilitychange', () => { if (document.hidden && flow.screen === 'race') togglePause(true); });
 window.addEventListener('resize', layout);
 out.addEventListener('pointerdown', (e) => {
-  if (audio && audio.unlock) audio.unlock();
+  if (audio && audio.resume) audio.resume();
   const r = out.getBoundingClientRect(), x = ((e.clientX - r.left) / r.width) * W, y = ((e.clientY - r.top) / r.height) * H;
   const sn = flow.screen === 'race' && G.paused ? 'pause' : flow.screen;
   const i = hitItem(sn, x, y);

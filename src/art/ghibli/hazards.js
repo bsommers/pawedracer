@@ -51,7 +51,7 @@ function cutter(kit, c, i) {
   c.restore();
 }
 function fondue(kit, c, i) {
-  glowDot(kit, c, 20, 24, 18, G.fondue, 0.45);
+  glowDot(kit, c, 20, 24, 15, G.fondue, 0.45);
   shade(kit, c, () => ell(c, 20, 24, 17, 6.2), G.fondueD, { lw: 0.55, y0: 18, y1: 30, hi: 0.2 });
   shade(kit, c, () => ell(c, 20, 23.4, 14.6, 4.8), G.fondue, { lw: 0, y0: 18, y1: 28, hi: 0.35, outline: false });
   ell(c, 18, 22.6, 8, 2.4); c.fillStyle = kit.rgba(G.flameL, 0.55); c.fill();
