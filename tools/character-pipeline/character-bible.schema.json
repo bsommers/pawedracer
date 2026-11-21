@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "character-bible.schema.json",
+  "title": "Character bible",
+  "description": "Structured description of one character. Machine-checked by lib/bible.mjs; free-text fields feed the prompt composer.",
+  "type": "object",
+  "required": ["id", "name", "species", "role", "build", "colors", "features", "mood", "forbidden"],
+  "additionalProperties": true,
+  "properties": {
+    "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{0,47}$", "description": "slug, used in asset ids" },
+    "name": { "type": "string", "minLength": 1 },
+    "species": { "type": "string", "minLength": 2 },
+    "role": { "type": "string", "enum": ["hero", "villain", "rival", "sidekick", "announcer", "crowd", "npc"] },
+    "build": { "type": "string", "minLength": 3, "description": "body shape / proportions" },
+    "heightHeads": { "type": "number", "minimum": 1, "maximum": 10, "description": "height in head-heights, for proportion checks" },
+    "colors": { "type": "object", "minProperties": 3, "description": "named palette: role -> #rrggbb. Must contain fur (or skin/body) and outline.", "additionalProperties": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" } },
+    "markings": { "type": "array", "items": { "type": "string" } },
+    "outfit": { "type": "array", "items": { "type": "string" } },
+    "props": { "type": "array", "items": { "type": "string" } },
+    "features": { "type": "array", "minItems": 2, "items": { "type": "string" }, "description": "signature features that must survive in every style" },
+    "mood": { "type": "string", "minLength": 3 },
+    "personality": { "type": "string" },
+    "expressions": { "type": "array", "items": { "type": "string" }, "description": "named expressions to generate; defaults apply when empty" },
+    "poses": { "type": "array", "items": { "type": "string" } },
+    "variants": { "type": "array", "items": { "type": "object", "required": ["id", "note"], "properties": { "id": { "type": "string" }, "note": { "type": "string" } } } },
+    "forbidden": { "type": "array", "minItems": 1, "items": { "type": "string" }, "description": "traits and imagery that must never appear" },
+    "references": { "type": "array", "items": { "type": "string" }, "description": "paths of reference images, relative to the repo" },
+    "notes": { "type": "string" }
+  }
+}

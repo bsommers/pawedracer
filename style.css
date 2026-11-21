@@ -1,0 +1,18 @@
+html,body{margin:0;height:100%;background:#0a0710;overflow:hidden;touch-action:none;-webkit-user-select:none;user-select:none}
+#stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+#game{width:min(100vw,160vh);height:min(62.5vw,100vh);background:#000;display:block}
+#game.pix{image-rendering:pixelated}
+#touch,#racetouch{position:fixed;inset:auto 0 0 0;pointer-events:none;z-index:5}
+#touch[hidden],#racetouch[hidden]{display:none}
+#touch button,#racetouch button{pointer-events:auto;font:700 18px monospace;color:#ffd23a;background:rgba(10,7,16,.55);border:2px solid #8d7a3a;border-radius:14px;min-width:56px;min-height:56px;margin:6px;touch-action:none}
+#touch button.on,#racetouch button.on{background:rgba(255,210,58,.45);color:#0a0710}
+#touch .dpad{position:fixed;left:8px;bottom:8px;width:200px;display:grid;grid-template-columns:repeat(3,1fr);grid-template-areas:". up ." "left down right"}
+#touch .dpad [data-a=up]{grid-area:up}#touch .dpad [data-a=left]{grid-area:left}#touch .dpad [data-a=down]{grid-area:down}#touch .dpad [data-a=right]{grid-area:right}
+#touch .side{position:fixed;right:8px;top:8px;display:flex}
+#touch .act{position:fixed;right:12px;bottom:16px;min-width:84px;min-height:84px;border-radius:50%}
+#racetouch .rt-left{position:fixed;left:6px;bottom:10px;display:flex}
+#racetouch .rt-left button{min-width:84px;min-height:84px}
+#racetouch .rt-right{position:fixed;right:6px;bottom:10px;display:flex;flex-wrap:wrap;justify-content:flex-end;width:250px}
+#racetouch .rt-right button{min-width:76px;min-height:76px}
+#racetouch .rt-pause{position:fixed;right:6px;top:6px;min-width:44px;min-height:44px}
+noscript p{color:#ffd23a;font:16px monospace;text-align:center}

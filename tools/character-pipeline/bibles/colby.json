@@ -1,0 +1,15 @@
+{
+  "id": "colby", "name": "Colby", "species": "cat (orange tabby)", "role": "hero",
+  "build": "chubby, round, upright; big head, small paws", "heightHeads": 2.5,
+  "colors": { "fur": "#e8963c", "stripes": "#c76a1f", "cream": "#fbe5c8", "ear": "#f0a0a0", "eyes": "#8fc04a", "nose": "#e88a8a", "scarf": "#e0392b", "goggles": "#f4d12e", "outline": "#1a1a1a" },
+  "markings": ["darker orange stripes on forehead, cheeks, legs and flanks", "ringed tail with cream tip", "cream muzzle, chest-belly patch and paw tips"],
+  "outfit": ["jungle explorer vest and pith helmet", "red scarf", "pilot goggles pushed up on the forehead when racing"],
+  "props": ["rope coil", "tuna can"],
+  "features": ["pink inner ears", "big green eyes", "cream belly patch", "ringed tail with cream tip"],
+  "mood": "cheerful, curious, brave", "personality": "plucky jungle explorer who hops across Perring Parkway",
+  "expressions": ["neutral", "happy", "scared", "surprised", "determined", "smug"],
+  "poses": ["idle", "hop", "run", "splat-free-dodge", "celebrate"],
+  "variants": [{ "id": "racer", "note": "pilot goggles and red scarf over the identity" }, { "id": "super", "note": "see super-colby bible" }],
+  "forbidden": ["existing superhero logos", "realistic anatomy in toon mode", "blood or gore"],
+  "references": ["learning/SuperColby-front-side.jpeg"]
+}

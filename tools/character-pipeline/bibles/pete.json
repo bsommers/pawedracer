@@ -1,0 +1,13 @@
+{
+  "id": "perring-parkway-pete", "name": "Perring Parkway Pete", "species": "rat (feral, brown)", "role": "villain",
+  "build": "gaunt, hunched, long-limbed", "heightHeads": 3.5,
+  "colors": { "fur": "#4a423b", "shade": "#3a342f", "skin": "#a86a68", "eyes": "#e0262e", "armor": "#3b3d3a", "tooth": "#f1ead8", "outline": "#1a1a1a" },
+  "markings": ["mangy tufted fur", "torn belly fur", "long scaly pink tail with ring ridges"],
+  "outfit": ["dark scrap-plate chest armour with shoulder straps"],
+  "features": ["glowing red eyes", "buck teeth", "huge round pink-mauve ears", "long pointed muzzle with long whiskers", "hunched back"],
+  "mood": "menacing, rabid, smug villain", "personality": "road-rage rat who rules Perring Parkway",
+  "expressions": ["snarl", "sneer", "laugh", "angry"],
+  "variants": [{ "id": "racing-suit", "note": "comedic pinstripes-and-sunglasses racing suit overlay" }],
+  "forbidden": ["cuteness softening of the face", "realistic gore"],
+  "references": ["learning/Perring-Parkway-Pete-front-side.jpeg"]
+}

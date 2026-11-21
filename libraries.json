@@ -1,0 +1,6 @@
+{
+  "libraries": [
+    { "id": "pawfall-assets",    "github": "bsommers/pawfall-assets@main",    "local": "../pawfall-assets",    "role": "Colby sprites, treasures, FX, sfx, songs (retro-8bit)" },
+    { "id": "character-library", "github": "bsommers/character-library@main", "local": "../character-library", "role": "characters in all styles; seeds: Super Colby, Perring Parkway Pete" }
+  ]
+}
