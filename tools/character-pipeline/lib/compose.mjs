@@ -6,7 +6,7 @@ export const STYLES = Object.freeze({
   retro: { label: 'retro pixel art', text: '16-bit pixel art sprite, limited palette, hard pixel edges, no anti-aliasing, dithering allowed', neg: ['smooth gradients', 'photographic', 'blur', 'anti-aliased edges'] },
   toon: { label: 'toon cartoon vector', text: 'clean uniform near-black outline, closed shapes, flat cel fills with one soft shade tone, a few hard-edged accent strokes, chubby readable proportions, no gradients on the character', neg: ['photorealistic', 'painterly', 'gradients on character', 'sketchy lines', 'text watermark'] },
   ghibli: { label: 'hand-painted animation', text: 'soft hand-painted animation-film look, gentle watercolour backgrounds, warm natural light, thin soft outlines, expressive eyes', neg: ['photorealistic', 'harsh black outline', 'pixelated', 'cgi plastic look'] },
-  photo: { label: 'photorealistic', text: 'photorealistic studio render, real fur and fabric detail, soft key light, accurate anatomy of the described species, isolated on a plain flat uniform light grey background, no shadow, no floor', neg: ['cartoon outline', 'flat colour', 'pixelated', 'extra limbs', 'text watermark', 'gradient background', 'drop shadow', 'floor', 'sticker border', 'white outline'] },
+  photo: { label: 'photorealistic', text: 'photorealistic studio render, real fur and fabric detail, soft key light, accurate anatomy of the described species, one single subject only, isolated on a plain flat uniform light grey background, no shadow, no floor', neg: ['cartoon outline', 'flat colour', 'pixelated', 'extra limbs', 'text watermark', 'gradient background', 'drop shadow', 'floor', 'sticker border', 'white outline', 'multiple views', 'collage', 'grid', 'character sheet', 'two characters', 'duplicate'] },
 });
 export const SHOTS = Object.freeze({
   turnaround: { text: 'character turnaround sheet: front view and side view side by side, same height, feet on a shared baseline, plain flat warm grey background, captions "Front View" and "Side View"', size: [1200, 896] },
@@ -38,6 +38,7 @@ export function composePrompt(bible, { style = 'toon', shot = 'turnaround', expr
     `shot: ${H.text}`,
     `style: ${S.text}`,
   ].filter(Boolean);
+  if (/vehicle/i.test(bible.species)) return composeVehicle(bible, S, style, shot, parts);
   const prompt = parts.join('. ') + '.';
   const negative = [...bible.forbidden, ...S.neg, 'deformed', 'extra fingers', 'inconsistent colours', 'cropped', 'text artefacts'].join(', ');
   const meta = { composer: COMPOSER_VERSION, bible: bible.id, style, shot, expression: expression || null, pose: pose || null, variant: variant || null, size: H.size, bibleHash: hashOf(bible), promptHash: hashOf(prompt + '\n' + negative) };
@@ -51,4 +52,15 @@ export function shotPlan(bible, style) {
   for (const e of bible.expressions?.length ? bible.expressions : DEFAULT_EXPRESSIONS) plan.push({ shot: 'expression', expression: e });
   for (const p of bible.poses?.length ? bible.poses : DEFAULT_POSES) plan.push({ shot: 'pose', pose: p });
   return plan.map((s) => ({ ...s, style }));
+}
+
+// Vehicles (pods): a plain-language prompt. Hex codes, names and "character" wording make SDXL render captions and character sheets, so colours become words.
+const COLOUR_WORDS = { orange: '#e8963c', yellow: '#e6c84a', cream: '#fbe5c8', blue: '#2a4a8a', green: '#3a8a4a', red: '#e0262e', brown: '#4a423b', rust: '#8a4b2a', grey: '#8d9099', black: '#1a1a1a' };
+const wordFor = (hex) => { const rgb = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16)); let best = 'grey', bd = 1e9; for (const [w, h] of Object.entries(COLOUR_WORDS)) { const d = [1, 3, 5].reduce((t, i, k) => t + (parseInt(h.slice(i, i + 2), 16) - rgb[k]) ** 2, 0); if (d < bd) { bd = d; best = w; } } return best; };
+function composeVehicle(bible, S, style, shot, _parts) {
+  const H = SHOTS[shot], cols = [...new Set(Object.entries(bible.colors).filter(([k]) => k !== 'outline' && /^#/.test(bible.colors[k])).map(([, v]) => wordFor(v)))].join(', ');
+  const prompt = `a single small futuristic racing pod shaped like a wedge of cheese with holes, seen from directly behind, rear view, centred and symmetrical. ${bible.build}. ${list(bible.features)}. main colours: ${cols}. ${S.text.replace('real fur and fabric detail, ', '').replace(', accurate anatomy of the described species', '').replace(/, one single subject only.*$/, '')}. one single object only, isolated on a plain flat uniform light grey background, no shadow, no floor, whole vehicle in frame`;
+  const negative = [...bible.forbidden, ...S.neg, 'text', 'letters', 'caption', 'logo', 'person', 'character sheet', 'multiple views', 'collage', 'grid', 'two objects', 'cropped'].join(', ');
+  const meta = { composer: COMPOSER_VERSION, bible: bible.id, style, shot, expression: null, pose: null, variant: null, size: H.size, bibleHash: hashOf(bible), promptHash: hashOf(prompt + '\n' + negative) };
+  return { prompt: prompt.replace(/\.\s*\./g, '.') + '.', negative, meta };
 }

@@ -1,0 +1,38 @@
+{
+  "id": "pod-rival",
+  "name": "Rival pod",
+  "species": "cheese-wedge racing pod (vehicle, seen from directly behind)",
+  "role": "rival",
+  "build": "sleek wedge, medium",
+  "heightHeads": 1.5,
+  "colors": {
+    "body": "#e6c84a",
+    "cream": "#fbe5c8",
+    "metal": "#8d9099",
+    "glass": "#9fd3e8",
+    "flame": "#ffb23c",
+    "outline": "#1a1a1a",
+    "fur": "#e6c84a",
+    "fin": "#3a8a4a"
+  },
+  "features": [
+    "rear view straight from behind, centred, symmetrical",
+    "two glowing engine nozzles at the back",
+    "cheese wedge hull with holes",
+    "small cockpit bubble with a tiny pilot silhouette",
+    "swiss cheese hull with big holes",
+    "green fins",
+    "number plate"
+  ],
+  "mood": "competitive",
+  "expressions": [],
+  "poses": [],
+  "forbidden": [
+    "side view",
+    "front view",
+    "visible driver face",
+    "wheels on a car",
+    "text"
+  ],
+  "notes": "Pod sprite for the road renderer: rear view, flat uniform background, whole vehicle visible."
+}

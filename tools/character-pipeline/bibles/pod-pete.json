@@ -1,0 +1,40 @@
+{
+  "id": "pod-pete",
+  "name": "Pete's pod",
+  "species": "cheese-wedge racing pod (vehicle, seen from directly behind)",
+  "role": "villain",
+  "build": "angular scrap-metal wedge, spiky",
+  "heightHeads": 1.5,
+  "colors": {
+    "body": "#4a423b",
+    "cream": "#fbe5c8",
+    "metal": "#8d9099",
+    "glass": "#9fd3e8",
+    "flame": "#ffb23c",
+    "outline": "#1a1a1a",
+    "fur": "#4a423b",
+    "rust": "#8a4b2a",
+    "eyes": "#e0262e",
+    "armor": "#3b3d3a"
+  },
+  "features": [
+    "rear view straight from behind, centred, symmetrical",
+    "two glowing engine nozzles at the back",
+    "cheese wedge hull with holes",
+    "small cockpit bubble with a tiny pilot silhouette",
+    "scrap-plate armour",
+    "red glowing engine",
+    "rusty exhaust pipes"
+  ],
+  "mood": "menacing, junkyard",
+  "expressions": [],
+  "poses": [],
+  "forbidden": [
+    "side view",
+    "front view",
+    "visible driver face",
+    "wheels on a car",
+    "text"
+  ],
+  "notes": "Pod sprite for the road renderer: rear view, flat uniform background, whole vehicle visible."
+}

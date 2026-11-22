@@ -18,3 +18,8 @@ Status (MVP): the Super Colby billboard now passes all checks (silhouette IoU 0.
 a cropped front-view reference passed to the generator, and flat-background prompts.
 Known limits: the look is still cartoon-like, not photographic (the reference photos are cartoons and base SDXL follows them); try a photoreal checkpoint via `PR_SDXL_MODEL`
 and lower `PR_SDXL_REF_SCALE`. Each try reloads the model (about 15 s overhead). Only Colby billboard verified; Pete, pods and drivers not yet generated.
+
+## Pete and pods (attempted 2026-11-21): NOT usable yet
+- Pete (`bibles/pete.json`): expressions (snarl/sneer/laugh/angry) came out as a single rat and pass the checks, but every billboard attempt (up to 8 seeds, ref scale 0.2-0.4) rendered two rats side by side, copying his two-view reference sheet. The "pass" results for earlier seeds were false positives (collage with high silhouette overlap).
+- Pods (`bibles/pod-*.json`, new vehicle prompt in `compose.mjs`): output is abstract panel patterns, not a pod. The checks still print PASS because, with no reference silhouette, only palette and size/anchor are tested; they cannot detect a non-pod. Do not trust a PASS on pods.
+- Ideas, in order: (1) feed the project's own toon pod sprite (src/art/toon) as the IP-Adapter reference or an img2img/ControlNet structure guide; (2) a vehicle/product-capable checkpoint via `PR_SDXL_MODEL`; (3) crop Pete's reference to one view before passing it; (4) add a vision-based "is this a pod / one subject" check to the pipeline.

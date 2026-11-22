@@ -1,0 +1,39 @@
+{
+  "id": "pod-colby",
+  "name": "Colby's pod",
+  "species": "cheese-wedge racing pod (vehicle, seen from directly behind)",
+  "role": "hero",
+  "build": "chunky wedge, low and wide",
+  "heightHeads": 1.5,
+  "colors": {
+    "body": "#e8963c",
+    "cream": "#fbe5c8",
+    "metal": "#8d9099",
+    "glass": "#9fd3e8",
+    "flame": "#ffb23c",
+    "outline": "#1a1a1a",
+    "fur": "#e8963c",
+    "stripes": "#c76a1f",
+    "fin": "#2a4a8a"
+  },
+  "features": [
+    "rear view straight from behind, centred, symmetrical",
+    "two glowing engine nozzles at the back",
+    "cheese wedge hull with holes",
+    "small cockpit bubble with a tiny pilot silhouette",
+    "orange cheddar hull",
+    "blue fins",
+    "white racing stripe"
+  ],
+  "mood": "cheerful, speedy",
+  "expressions": [],
+  "poses": [],
+  "forbidden": [
+    "side view",
+    "front view",
+    "visible driver face",
+    "wheels on a car",
+    "text"
+  ],
+  "notes": "Pod sprite for the road renderer: rear view, flat uniform background, whole vehicle visible."
+}
