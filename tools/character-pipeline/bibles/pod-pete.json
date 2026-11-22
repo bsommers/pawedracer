@@ -36,5 +36,8 @@
     "wheels on a car",
     "text"
   ],
-  "notes": "Pod sprite for the road renderer: rear view, flat uniform background, whole vehicle visible."
+  "notes": "Pod sprite for the road renderer: rear view, flat uniform background, whole vehicle visible.",
+  "references": [
+    "learning/pod-pete.png"
+  ]
 }
